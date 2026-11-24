@@ -1,0 +1,350 @@
+body {
+  font: 15px system-ui;
+  color: #203444;
+  background: #f3f6f8;
+  margin: 24px;
+}
+main {
+  max-width: 1200px;
+  margin: auto;
+}
+section {
+  background: white;
+  border: 1px solid #dce4e9;
+  border-radius: 12px;
+  padding: 18px;
+  margin: 16px 0;
+  overflow: auto;
+}
+h1 {
+  margin-bottom: 0;
+}
+h2 {
+  font-size: 18px;
+}
+p {
+  line-height: 1.5;
+}
+table {
+  border-collapse: collapse;
+  width: 100%;
+  min-width: 650px;
+}
+td,
+th {
+  padding: 8px;
+  border-bottom: 1px solid #e0e7eb;
+  text-align: left;
+}
+th {
+  background: #eaf1f5;
+}
+select,
+input,
+button {
+  font: inherit;
+  padding: 7px;
+  border: 1px solid #b9c9d3;
+  border-radius: 6px;
+  background: white;
+}
+button {
+  background: #175c72;
+  color: white;
+  cursor: pointer;
+  margin: 4px;
+}
+button.secondary {
+  background: white;
+  color: #175c72;
+}
+small {
+  color: #536b79;
+}
+.warn {
+  color: #a04419;
+}
+textarea {
+  width: 95%;
+  min-height: 42px;
+}
+@media print {
+  body {
+    background: white;
+    margin: 0;
+  }
+  .controls {
+    display: none;
+  }
+  section {
+    border: 0;
+  }
+}
+.choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin: 8px 0 16px;
+}
+.choices button,
+.status {
+  background: #fff;
+  color: #175c72;
+  border: 1px solid #b9c9d3;
+}
+.choices button.active {
+  background: #175c72;
+  color: white;
+  border-color: #175c72;
+}
+.status {
+  width: 100%;
+  margin: 0;
+  min-width: 95px;
+}
+.status.changed {
+  background: #e8eff4;
+  color: #203444;
+}
+dialog {
+  border: 1px solid #b9c9d3;
+  border-radius: 12px;
+  max-width: 90vw;
+  padding: 20px;
+}
+dialog::backdrop {
+  background: #20344466;
+}
+@media (max-width: 600px) {
+  body {
+    margin: 10px;
+  }
+  section {
+    padding: 12px;
+  }
+}
+input,
+textarea {
+  color: #203444 !important;
+  background: #fff !important;
+  color-scheme: light;
+}
+.mini {
+  display: flex;
+  gap: 2px;
+  justify-content: center;
+}
+.mini button {
+  font-size: 11px;
+  padding: 3px 5px;
+  background: white;
+  color: #175c72;
+  margin: 3px 0;
+}
+.mini button.active {
+  background: #175c72;
+  color: white;
+}
+.planning {
+  table-layout: fixed;
+  min-width: 850px;
+}
+.planning th {
+  background: #24495d;
+  color: white;
+  text-align: center;
+}
+.planning td {
+  border: 3px solid white;
+  text-align: center;
+  height: 65px;
+  font-size: 13px;
+  vertical-align: middle;
+}
+.planning td div[contenteditable] {
+  min-height: 20px;
+  font-weight: 600;
+}
+.plant {
+  background: #dcebf5;
+}
+.consult {
+  background: #f7ecd7;
+}
+.qx {
+  background: #e9ddf3;
+}
+.cme {
+  background: #ddebda;
+}
+.neutral {
+  background: #edf0f2;
+}
+.pm {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  margin-top: 5px;
+}
+.pm span {
+  padding: 3px 7px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: bold;
+}
+.jd {
+  background: #d5c6ee;
+  color: #493475;
+}
+.ae {
+  background: #f5d6a4;
+  color: #704600;
+}
+@media print {
+  @page {
+    size: landscape;
+  }
+  .planning {
+    min-width: 0;
+  }
+  * {
+    print-color-adjust: exact;
+  }
+}
+.daygrid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(125px, 1fr));
+  gap: 8px;
+}
+.daybox {
+  background: #f3f6f8;
+  padding: 10px;
+  border-radius: 8px;
+}
+.daybox label,
+.toggle + label {
+  display: block;
+  border: 1px solid #b9c9d3;
+  border-radius: 6px;
+  padding: 7px;
+  margin: 5px 0;
+  cursor: pointer;
+  text-align: center;
+  background: white;
+  color: #175c72;
+}
+.daybox input,
+.toggle {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+}
+.daybox input:checked + label,
+.toggle:checked + label {
+  background: #175c72;
+  color: white;
+}
+.daybox input:focus-visible + label,
+.toggle:focus-visible + label {
+  outline: 2px solid #175c72;
+}
+.toggle + label {
+  display: inline-block;
+}
+.planning td {
+  transition: background 0.15s;
+}
+.planning td div[contenteditable]:focus {
+  outline: 2px solid #175c72;
+}
+#feedback {
+  color: #175c72;
+  font-weight: 600;
+}
+@media print {
+  #alerts,
+  #feedback {
+    display: none;
+  }
+}
+html {
+  color-scheme: light;
+}
+button {
+  min-height: 44px;
+}
+#out,
+#avail,
+#skills {
+  overflow-x: auto;
+}
+.daygrid {
+  grid-template-columns: repeat(auto-fit, minmax(135px, 1fr));
+}
+.planning th:first-child,
+#avail th:first-child {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+}
+.planning td [contenteditable] {
+  padding: 6px;
+  overflow-wrap: anywhere;
+}
+.planning [data-lock] {
+  font-size: 12px;
+}
+.planning[data-filter] {
+  min-width: 0;
+}
+.planning [hidden] {
+  display: none;
+}
+.lock {
+  display: block;
+}
+.planning td.neutral {
+  background: #f7fafc;
+}
+@media (max-width: 600px) {
+  input {
+    max-width: 100%;
+  }
+  .planning td {
+    min-width: 90px;
+  }
+}
+@media print {
+  #syncStatus,
+  #retrySync,
+  #acceptRemote,
+  .lock {
+    display: none !important;
+  }
+  .planning [hidden] {
+    display: table-cell;
+  }
+  .planning tr[hidden] {
+    display: table-row;
+  }
+}
+
+#profiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 0.5rem;
+  margin-block: 0.75rem;
+}
+#profiles label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+#profiles input {
+  min-width: 0;
+  width: 100%;
+}
+input,
+select {
+  font-size: 16px;
+}
