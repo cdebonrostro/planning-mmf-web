@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="es">
+  <meta
+    http-equiv="Content-Security-Policy"
+    content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; worker-src 'self'; object-src 'none'; base-uri 'none'"
+  />
+  <meta charset="utf-8" /><meta
+    name="viewport"
+    content="width=device-width,initial-scale=1"
+  /><link rel="apple-touch-icon" href="./apple-touch-icon.png" /><meta
+    name="apple-mobile-web-app-capable"
+    content="yes"
+  /><link rel="manifest" href="./manifest.webmanifest" /><link
+    rel="stylesheet"
+    href="./style.css"
+  /><meta name="theme-color" content="#24495d" /><title>Planning MMF</title>
+  <main>
+    <h1>Planning MMF</h1>
+    <p>Medicina Materno-Fetal · Planificador semanal · Versión 1.0</p>
+    <section class="controls" aria-label="Copia de seguridad">
+      <p role="status" id="syncStatus">Abriendo almacenamiento local…</p>
+      <button id="retrySync" hidden>Reintentar guardado</button>
+      <button id="acceptRemote" hidden>Recargar datos de este navegador</button>
+      <button data-action="exportHistory">
+        Descargar copia completa (JSON)
+      </button>
+      <button id="shareBackup" data-action="shareHistory" hidden>
+        Compartir copia completa
+      </button>
+      <label
+        >Recuperar copia JSON
+        <input
+          type="file"
+          accept=".json,application/json"
+          data-import="importHistory"
+        />
+      </label>
+      <p id="historyStatus" role="status"></p>
+    </section>
+    <section class="controls">
+      <h2>1. Semana y agenda</h2>
+      <label>Lunes de la semana <input id="week" type="date" /></label>
+      <label><input type="checkbox" id="pgr" /> MARECU el jueves</label>
+      <p>Quirófano ginecológico del miércoles</p>
+      <input type="hidden" id="gyn" value="Nadie" />
+      <div id="gynButtons" class="choices"></div>
+      <p>
+        Día de <span data-profile-label="3">P04</span> en hospital (preferencia)
+      </p>
+      <input type="hidden" id="nocme" value="auto" />
+      <div id="nocmeButtons" class="choices"></div>
+      <div id="days"></div>
+      <details>
+        <summary>Perfiles locales y competencias</summary>
+        <p>
+          Introduce los nombres o alias de tus perfiles. Usa los códigos P01–P08
+          en las rotaciones.
+        </p>
+        <div id="profiles"></div>
+        <div id="skills"></div>
+      </details>
+      <p>
+        Jornada deslizada del jueves:
+        <input type="checkbox" id="autoJD" class="toggle" />
+        <label for="autoJD">Asignar automáticamente</label>
+        <label
+          >Orden JD <input id="jdRotation" value="P02, P05, P06, P07, P03, P08"
+        /></label>
+      </p>
+      <p>Quirófano de histeroscopias:</p>
+      <div id="hystDays" class="choices"></div>
+      <p>
+        <label
+          ><input type="checkbox" id="combine" checked /> Admitir planta + 3D,
+          versiones o quirófano (revisar carga)</label
+        >
+        <label
+          ><input type="checkbox" id="office" checked /> Intentar reservar
+          despacho de jefatura</label
+        >
+      </p>
+    </section>
+    <section class="controls">
+      <h2>2. Disponibilidad y compromisos</h2>
+      <p>
+        La guardia permite actividad de mañana; la libranza del día siguiente se
+        calcula automáticamente a partir de las guardias registradas. Si la
+        semana anterior falta, indica aquí sus guardias de sábado y domingo.
+      </p>
+      <div id="previous"></div>
+      <div id="avail"></div>
+      <p>
+        Turno de tardes extraordinarias (orden de rotación):
+        <input id="rotation" size="45" value="P02, P05, P07, P04, P03" />
+      </p>
+      <p>
+        Posición inicial (0 = primera persona):
+        <input
+          id="cursor"
+          type="number"
+          min="0"
+          value="0"
+          style="width: 65px"
+        />
+        <span id="nextcursor"></span>
+        <button class="secondary" data-action="commitCursor">
+          Guardar siguiente turno
+        </button>
+      </p>
+      <p>
+        Las tardes se asignan solo en días marcados y sin guardia ni ausencia.
+        La jornada deslizada se considera indisponibilidad de mañana.
+      </p>
+      <button data-action="generate">Generar planning</button
+      ><button class="secondary" data-action="save">
+        Guardar configuración</button
+      ><button class="secondary" data-action="load">
+        Recuperar configuración
+      </button>
+    </section>
+    <section>
+      <h2>3. Planning semanal</h2>
+      <div class="controls" id="views">
+        <label
+          >Vista
+          <select id="view">
+            <option value="week">Semanal</option>
+            <option value="day">Por día</option>
+            <option value="person">Por facultativo</option>
+          </select></label
+        >
+        <label
+          ><span id="viewLabel"></span>
+          <select id="viewItem" hidden></select
+        ></label>
+      </div>
+      <div id="out">
+        Introduce las disponibilidades y pulsa Generar planning.
+      </div>
+      <div id="alerts"></div>
+      <p id="feedback" role="status"></p>
+      <div class="controls">
+        <button data-action="archivePlan">Guardar planning definitivo</button
+        ><button class="secondary" data-action="restorePlan">
+          Recuperar planning de esta semana</button
+        ><button class="secondary" data-action="backupPlan">
+          Descargar copia del planning</button
+        ><label
+          >Importar copia
+          <input type="file" accept=".json" data-import="importPlan"
+        /></label>
+      </div>
+      <button class="controls secondary" data-action="review">
+        Revisar edición manual</button
+      ><button class="controls secondary" data-action="printPlan">
+        Imprimir</button
+      ><button class="controls secondary" data-action="downloadPDF">
+        Descargar PDF</button
+      ><button
+        class="controls secondary"
+        id="sharePDF"
+        data-action="sharePDF"
+        hidden
+      >
+        Compartir PDF</button
+      ><button class="controls secondary" data-action="csv">Exportar CSV</button
+      ><button
+        class="controls secondary"
+        id="shareCSV"
+        data-action="shareCSV"
+        hidden
+      >
+        Compartir CSV
+      </button>
+    </section>
+    <section class="controls">
+      <h2>4. Histórico de plannings</h2>
+      <div id="history"></div>
+      <div id="revisions"></div>
+    </section>
+  </main>
+  <dialog id="statusDialog">
+    <h2 id="statusTitle">Disponibilidad</h2>
+    <div id="statusButtons" class="choices"></div>
+    <button class="secondary" data-action="cancelDialog">Cancelar</button>
+  </dialog>
+  <script type="module" src="./app.js"></script>
+</html>
